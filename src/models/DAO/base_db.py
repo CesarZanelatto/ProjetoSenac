@@ -4,7 +4,7 @@ from json import JSONDecodeError
 class BaseDB:
 
     def __init__(self,file_db:str):
-        self.__path=fr"C:\Users\cesar\PycharmProjects\SistemaLimpeza\src\infrastructure\database\{file_db}"
+        self.__path=fr"C:\Users\cesar\PycharmProjects\ProjetoSenac\src\infrastructure\database\{file_db}"
         self.__file_db=file_db
 
     def read_list(self)-> list:
