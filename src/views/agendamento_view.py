@@ -1,20 +1,23 @@
 import calendar
 from datetime import datetime
-
 from flet import (
     View, Container, Text, Alignment, Row, MainAxisAlignment,
     Button, Icons, DataTable, DataColumn, DataRow, DataCell,
     Column, FontWeight, Divider, IconButton, TextAlign,
     BoxShadow, ResponsiveRow, ScrollMode, Border,
-    TextField, ElevatedButton
+    TextField, ElevatedButton, Dropdown
 )
+from flet.controls.material import dropdown
+
+from src.models.DAO.agendamento_dao import AgendamentoDAO
+from src.models.DAO.paciente_dao import PacienteDAO
 class AgendamentoView(View):
 
     def __init__(self):
         super().__init__()
 
         self.route = "/agendamentos"
-
+        self.agendamento_dao = AgendamentoDAO()
         self.dia_selecionado = 5
         self.mes_atual = 5
         self.ano_atual = 2026
@@ -30,9 +33,13 @@ class AgendamentoView(View):
             hint_text="08:30",
             width=120
         )
-        self.input_paciente = TextField(
+        self.input_paciente = Dropdown(
             label="Paciente",
-            expand=True
+            expand=True,
+            options=[
+                dropdown.Option(paciente["nome"])
+                for paciente in PacienteDAO().ler_paciente()
+            ]
         )
         self.input_procedimento = TextField(
             label="Procedimento",
@@ -58,24 +65,7 @@ class AgendamentoView(View):
             bgcolor="#569AA5",
             color="white"
         )
-        self.agendamentos = [
-            {
-                "dia": 5,
-                "horário": "08:00",
-                "paciente": "João Silva",
-                "idade": "32",
-                "procedimento": "Consulta",
-                "status": "Confirmado"
-            },
-            {
-                "dia": 5,
-                "horário": "09:30",
-                "paciente": "Maria Souza",
-                "idade": "28",
-                "procedimento": "Exame",
-                "status": "Pendente"
-            }
-        ]
+
         self.tabela_agendamentos = DataTable(
             columns=[
                 DataColumn(label=Text("Horário")),
@@ -97,7 +87,7 @@ class AgendamentoView(View):
                 for agendamento in self.filtrar_agendamentos()
             ]
         )
-    def add_agendamento(self):
+    def add_agendamento(self,e):
         novo_agendamento = {
             "dia": self.dia_selecionado,
             "horário": self.input_horario.value,
@@ -106,7 +96,7 @@ class AgendamentoView(View):
             "procedimento": self.input_procedimento.value,
             "status": "Pendente"
         }
-        self.agendamentos.append(novo_agendamento)
+        self.agendamento_dao.add_agendamento(novo_agendamento)
         self.tabela_agendamentos.rows.append(
             DataRow(
                 cells=[
@@ -269,7 +259,7 @@ class AgendamentoView(View):
     def filtrar_agendamentos(self):
         return [
             agendamento
-            for agendamento in self.agendamentos
+            for agendamento in self.agendamento_dao.ler_agendamento()
             if agendamento["dia"] == self.dia_selecionado
         ]
 
