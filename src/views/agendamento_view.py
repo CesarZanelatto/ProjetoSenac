@@ -5,12 +5,14 @@ from flet import (
     Button, Icons, DataTable, DataColumn, DataRow, DataCell,
     Column, FontWeight, Divider, IconButton, TextAlign,
     BoxShadow, ResponsiveRow, ScrollMode, Border,
-    TextField, ElevatedButton, Dropdown
+    TextField, ElevatedButton, Dropdown, SnackBar
 )
 from flet.controls.material import dropdown
-
+from src.infrastructure.services.gerador_id import Gerador_ID
 from src.models.DAO.agendamento_dao import AgendamentoDAO
 from src.models.DAO.paciente_dao import PacienteDAO
+
+
 class AgendamentoView(View):
 
     def __init__(self):
@@ -70,114 +72,121 @@ class AgendamentoView(View):
             columns=[
                 DataColumn(label=Text("Horário")),
                 DataColumn(label=Text("Paciente")),
-                DataColumn(label=Text("Idade")),
                 DataColumn(label=Text("Procedimento")),
-                DataColumn(label=Text("Status"))
+                DataColumn(label=Text("Status")),
+                DataColumn(label=Text("Ações"))
             ],
-            rows=[
-                DataRow(
-                    cells=[
-                        DataCell(Text(agendamento["horário"])),
-                        DataCell(Text(agendamento["paciente"])),
-                        DataCell(Text(agendamento.get("idade", "N/A"))),
-                        DataCell(Text(agendamento.get("procedimento", "N/A"))),
-                        DataCell(Text(agendamento.get("status", "N/A")))
-                    ]
-                )
-                for agendamento in self.filtrar_agendamentos()
-            ]
+            rows=self.build_rows_agendamentos()
         )
-    def add_agendamento(self,e):
+    def build_rows_agendamentos(self):
+        return [
+            DataRow(
+                cells=[
+                    DataCell(Text(agendamento["horário"])),
+                    DataCell(Text(agendamento["paciente"])),
+                    DataCell(Text(agendamento.get("procedimento", "N/A"))),
+                    DataCell(Text(agendamento.get("status", "N/A"))),
+                    DataCell(
+                        IconButton(
+                            icon=Icons.DELETE,
+                            icon_color="red",
+                            data=agendamento,
+                            on_click=self.deletar_agendamento
+                        )
+                    )
+                ]
+            )
+            for agendamento in self.filtrar_agendamentos()
+        ]
+
+    def add_agendamento(self):
+        if (
+                not self.input_horario.value
+                or not self.input_paciente.value
+                or not self.input_procedimento.value
+        ):
+            self.page.snack_bar = SnackBar(
+                Text("Preencha todos os campos!")
+            )
+            self.page.snack_bar.open = True
+            self.page.update()
+            return
+
+        horario = self.input_horario.value
+        if len(horario) != 5or horario[2] != ":":
+            self.page.snack_bar = SnackBar(
+                Text("Horário inválido!")
+            )
+            self.page.snack_bar.open = True
+            self.page.update()
+            return
+
+        hora = horario[:2]
+        minuto = horario[3:]
+        if not hora.isdigit() or not minuto.isdigit():
+            self.page.snack_bar = SnackBar(
+                Text("Horário inválido!")
+            )
+            self.page.snack_bar.open = True
+            self.page.update()
+            return
+
+        hora = int(hora)
+        minuto = int(minuto)
+        if hora > 23 or minuto > 59:
+            self.page.snack_bar = SnackBar(
+                Text("Horário inválido!")
+            )
+            self.page.snack_bar.open = True
+            self.page.update()
+            return
         novo_agendamento = {
+            "id": Gerador_ID("agendamento.json", "id").id_gerado,
             "dia": self.dia_selecionado,
             "horário": self.input_horario.value,
             "paciente": self.input_paciente.value,
-            "idade": "N/A",
             "procedimento": self.input_procedimento.value,
             "status": "Pendente"
         }
         self.agendamento_dao.add_agendamento(novo_agendamento)
-        self.tabela_agendamentos.rows.append(
-            DataRow(
-                cells=[
-                    DataCell(Text(novo_agendamento["horário"])),
-                    DataCell(Text(novo_agendamento["paciente"])),
-                    DataCell(Text(novo_agendamento["idade"])),
-                    DataCell(Text(novo_agendamento["procedimento"])),
-                    DataCell(Text(novo_agendamento["status"]))
-                ]
-            )
-        )
+        self.tabela_agendamentos.rows = self.build_rows_agendamentos()
         self.input_horario.value = ""
         self.input_paciente.value = ""
         self.input_procedimento.value = ""
         self.update()
+        self.page.snack_bar = SnackBar(
+            Text("Agendamento criado com sucesso!")
+        )
+        self.page.snack_bar.open = True
+        self.page.update()
 
     def build_calendario_container(self):
         return Container(
             content=Column(
                 controls=[
-                    Text(
-                        "Calendário",
-                        size=20,
-                        weight=FontWeight.BOLD
-                    ),
+                    Text("Calendário", size=20, weight=FontWeight.BOLD),
                     Divider(),
                     Row(
                         controls=[
-                            IconButton(
-                                Icons.ARROW_BACK,
-                                on_click=self.mes_anterior
-                            ),
+                            IconButton(Icons.ARROW_BACK, on_click=self.mes_anterior),
                             Text(
                                 f"{self.nome_mes()} {self.ano_atual}",
                                 expand=True,
                                 text_align=TextAlign.CENTER,
                                 weight=FontWeight.BOLD,
                             ),
-                            IconButton(
-                                Icons.ARROW_FORWARD,
-                                on_click=self.proximo_mes
-                            )
+                            IconButton(Icons.ARROW_FORWARD, on_click=self.proximo_mes)
                         ]
                     ),
                     Row(
                         controls=[
-                            Container(
-                                content=Text("SEG", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
-                            ),
-                            Container(
-                                content=Text("TER", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
-                            ),
-                            Container(
-                                content=Text("QUA", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
-                            ),
-                            Container(
-                                content=Text("QUI", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
-                            ),
-                            Container(
-                                content=Text("SEX", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
-                            ),
-                            Container(
-                                content=Text("SAB", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
-                            ),
-                            Container(
-                                content=Text("DOM", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
-                            )
+                            Container(content=Text("SEG", size=10), width=30, alignment=Alignment.CENTER),
+                            Container(content=Text("TER", size=10), width=30, alignment=Alignment.CENTER),
+                            Container(content=Text("QUA", size=10), width=30, alignment=Alignment.CENTER),
+                            Container(content=Text("QUI", size=10), width=30, alignment=Alignment.CENTER),
+                            Container(content=Text("SEX", size=10), width=30, alignment=Alignment.CENTER),
+                            Container(content=Text("SAB", size=10), width=30, alignment=Alignment.CENTER),
+                            Container(content=Text("DOM", size=10), width=30, alignment=Alignment.CENTER)
                         ]
                     ),
                     *self.build_calendario()
@@ -187,11 +196,7 @@ class AgendamentoView(View):
             border_radius=15,
             padding=20,
             border=Border.all(1, "#e5e7eb"),
-            shadow=BoxShadow(
-                blur_radius=5,
-                spread_radius=1,
-                color="#d6d6d6"
-            )
+            shadow=BoxShadow(blur_radius=5, spread_radius=1, color="#d6d6d6")
         )
 
     def build_calendario(self):
@@ -200,60 +205,30 @@ class AgendamentoView(View):
             linha_semana = []
             for dia in semana:
                 dia_atual = (
-                        dia == self.data_atual.day and
-                        self.mes_atual == self.data_atual.month and
-                        self.ano_atual == self.data_atual.year
+                    dia == self.data_atual.day and
+                    self.mes_atual == self.data_atual.month and
+                    self.ano_atual == self.data_atual.year
                 )
                 linha_semana.append(
                     Container(
-                        content=Text(
-                            "" if dia == 0 else str(dia),
-                            color="white"
-                            if dia == self.dia_selecionado
-                            else "black"
-                        ),
+                        content=Text("" if dia == 0 else str(dia),
+                                     color="white" if dia == self.dia_selecionado else "black"),
                         width=30,
                         height=30,
                         alignment=Alignment.CENTER,
                         border_radius=15,
                         data=dia,
-                        on_click=None
-                        if dia == 0
-                        else self.selecionar_dia,
-                        bgcolor="transparent"
-                        if dia == 0
-                        else "#569AA5"
-                        if dia == self.dia_selecionado
-                        else "#E6F4F5",
-                        border=Border.all(2, "#569AA5")
-                        if dia_atual
-                        else None
+                        on_click=None if dia == 0 else self.selecionar_dia,
+                        bgcolor="transparent" if dia == 0 else "#569AA5" if dia == self.dia_selecionado else "#E6F4F5",
+                        border=Border.all(2, "#569AA5") if dia_atual else None
                     )
                 )
-            linhas_calendario.append(
-                Row(
-                    controls=linha_semana,
-                    alignment=MainAxisAlignment.SPACE_BETWEEN
-                )
-            )
+            linhas_calendario.append(Row(controls=linha_semana, alignment=MainAxisAlignment.SPACE_BETWEEN))
         return linhas_calendario
 
     def nome_mes(self):
-        meses = [
-            "",
-            "Janeiro",
-            "Fevereiro",
-            "Março",
-            "Abril",
-            "Maio",
-            "Junho",
-            "Julho",
-            "Agosto",
-            "Setembro",
-            "Outubro",
-            "Novembro",
-            "Dezembro"
-        ]
+        meses = ["", "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+                 "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
         return meses[self.mes_atual]
 
     def filtrar_agendamentos(self):
@@ -266,21 +241,8 @@ class AgendamentoView(View):
     def selecionar_dia(self, e):
         self.dia_selecionado = e.control.data
         self.texto_consultas_dia.value = f"Consultas do Dia {self.dia_selecionado}"
-        agendamentos_dia = self.filtrar_agendamentos()
-        self.tabela_agendamentos.rows = [
-            DataRow(
-                cells=[
-                    DataCell(Text(agendamento["horário"])),
-                    DataCell(Text(agendamento["paciente"])),
-                    DataCell(Text(agendamento.get("idade", "N/A"))),
-                    DataCell(Text(agendamento.get("procedimento", "N/A"))),
-                    DataCell(Text(agendamento.get("status", "N/A")))
-                ]
-            )
-            for agendamento in agendamentos_dia
-        ]
-
-        self.controls[0].content.controls[1].controls[0].content = (self.build_calendario_container())
+        self.tabela_agendamentos.rows = self.build_rows_agendamentos()
+        self.controls[0].content.controls[1].controls[0].content = self.build_calendario_container()
         self.update()
 
     def proximo_mes(self):
@@ -289,8 +251,8 @@ class AgendamentoView(View):
         else:
             self.mes_atual = 1
             self.ano_atual += 1
-        self.dias_mes = calendar.monthcalendar(self.ano_atual,self.mes_atual)
-        self.controls[0].content.controls[1].controls[0].content = (self.build_calendario_container())
+        self.dias_mes = calendar.monthcalendar(self.ano_atual, self.mes_atual)
+        self.controls[0].content.controls[1].controls[0].content = self.build_calendario_container()
         self.update()
 
     def mes_anterior(self):
@@ -299,11 +261,14 @@ class AgendamentoView(View):
         else:
             self.mes_atual = 12
             self.ano_atual -= 1
-        self.dias_mes = calendar.monthcalendar(
-            self.ano_atual,
-            self.mes_atual
-        )
-        self.controls[0].content.controls[1].controls[0].content=(self.build_calendario_container())
+        self.dias_mes = calendar.monthcalendar(self.ano_atual, self.mes_atual)
+        self.controls[0].content.controls[1].controls[0].content = self.build_calendario_container()
+        self.update()
+
+    def deletar_agendamento(self, e):
+        agendamento = e.control.data
+        self.agendamento_dao.deletar_agendamento(agendamento["id"])
+        self.tabela_agendamentos.rows = self.build_rows_agendamentos()
         self.update()
 
     def build(self):
