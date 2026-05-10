@@ -1,6 +1,6 @@
 from flet import *
 from src.models.DAO.paciente_dao import PacienteDAO
-
+from src.infrastructure.services.gerador_id import Gerador_ID
 
 class PacienteView(View):
 
@@ -127,7 +127,7 @@ class PacienteView(View):
 
     def cadastrar_paciente(self, e):
         novo_paciente={
-            "id":len(self.lista_pacientes) + 1,
+            "id": Gerador_ID("paciente.json","id").id_gerado,
             "nome":self.input_nome.value,
             "telefone":self.input_telefone.value,
             "data_nascimento":self.input_data_nascimento.value
@@ -140,34 +140,6 @@ class PacienteView(View):
         self.renderizar_pacientes()
 
     def renderizar_pacientes(self):
-        self.controls = [
-            Container(
-                expand=True,
-                padding=20,
-                content=Column(
-                    controls=[
-                        Text(
-                            "Pacientes Cadastrados",
-                            size=28,
-                            weight=FontWeight.BOLD
-                        ),
-                        Divider(),
-                        Container(
-                            expand=True,
-                            bgcolor="#FFFFFF",
-                            border_radius=15,
-                            padding=20,
-                            border=Border.all(1, "#E5E7EB"),
-                            content=Column(
-                                scroll=ScrollMode.AUTO,
-                                controls=[
-                                    self.criar_card_paciente(paciente)
-                                    for paciente in self.lista_pacientes
-                                ]
-                            )
-                        )
-                    ]
-                )
-            )
-        ]
+        lista_container=[self.criar_card_paciente(paciente)for paciente in self.lista_pacientes]
+        self.controls[0].content.controls[3].content.controls = lista_container
         self.update()

@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "id": 1,
+        "nome": "Cesar",
+        "telefone": "990190546",
+        "data_nascimento": "10/09/2003"
+    }
+]
