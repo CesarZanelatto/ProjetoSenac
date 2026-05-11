@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="21395e10-1922-4037-821e-0092afe7a972" name="Changes" comment="" />
+    <list default="true" id="21395e10-1922-4037-821e-0092afe7a972" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/ProjetoSenac.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ProjetoSenac.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/database/agendamento.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/database/agendamento.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/database/paciente.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/database/paciente.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infrastructure/services/gerador_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/services/gerador_id.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/handle_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/handle_process.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/DAO/base_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/DAO/base_db.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "CesarZanelatto"
+  }
 }]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/CesarZanelatto/ProjetoSenac.git",
+    "accountId": "625590e8-49e6-4e88-b147-414613e25b76"
+  }
+}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="3DXHp9VYsrwJlF9Bo1hQGU0vNhb" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -18,13 +40,17 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+    "Python.app.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-2653e85de345-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.31033.139" />
+        <option value="bundled-python-sdk-1bde30d8e611-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.130" />
       </set>
     </attachedChunks>
   </component>

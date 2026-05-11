@@ -4,7 +4,7 @@ from json import JSONDecodeError
 class Gerador_ID:
 
     def __init__(self,path_file,atributo):
-        self.path_file=fr"C:\Users\cesar\PycharmProjects\ProjetoSenac\src\infrastructure\database\{path_file}"
+        self.path_file=fr"C:\Users\cesar.ozanelatto\PycharmProjects\ProjetoSenac\src\infrastructure\database\{path_file}"
         self.id_gerado=None
         try:
             with open(self.path_file,"r",encoding="utf-8") as file:
