@@ -113,7 +113,7 @@ class AgendamentoView(View):
             return
 
         horario = self.input_horario.value
-        if len(horario) != 5or horario[2] != ":":
+        if len(horario) != 5 or horario[2] != ":":
             self.page.snack_bar = SnackBar(
                 Text("Horário inválido!")
             )
