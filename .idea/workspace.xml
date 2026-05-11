@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="21395e10-1922-4037-821e-0092afe7a972" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/ProjetoSenac.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ProjetoSenac.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/infrastructure/services/gerador_id.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/infrastructure/services/gerador_id.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/DAO/base_db.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/DAO/base_db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/agendamento_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/agendamento_view.py" afterDir="false" />
-    </list>
+    <list default="true" id="21395e10-1922-4037-821e-0092afe7a972" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
