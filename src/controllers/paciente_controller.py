@@ -23,7 +23,7 @@ class PacienteController:
             delete_button.on_click = lambda e, paciente_id=paciente["id"]: self.handle_delete_paciente(paciente_id)
             lista_container.append(card)
 
-        self.tela.controls[0].content.controls[3].content.controls = lista_container
+        self.tela.controls[0].controls[1].content.controls[3].content.controls = lista_container
         self.page.update()
 
     def buscar_paciente_id(self, id: int):

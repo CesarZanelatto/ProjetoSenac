@@ -9,6 +9,9 @@ class PacienteView(View):
         self.route="/pacientes"
         self.paciente_dao=PacienteDAO()
         self.lista_pacientes=self.paciente_dao.ler_paciente()
+        self.bgcolor="#E6F4F5"
+        self.spacing=0
+        self.padding=0
         self.input_nome=TextField(
             label="Nome",
             expand=True
@@ -30,43 +33,100 @@ class PacienteView(View):
             on_click=self.cadastrar_paciente
         )
 
+        config_btn = 12
 
-        self.controls=[
-            Container(
+        btn1 = Button(
+            "Dashboard",
+            icon=Icons.DASHBOARD,
+            col=config_btn,
+            color="Black",
+            bgcolor="#FFFFFF",
+            height=55,
+            width=212
+        )
+
+        btn2 = Button(
+            "Pacientes",
+            icon=Icons.PEOPLE,
+            col=config_btn,
+            color="Black",
+            bgcolor="#FFFFFF",
+            height=55,
+            width=212
+        )
+
+        btn3 = Button(
+            "Agendamentos",
+            icon=Icons.CALENDAR_TODAY_OUTLINED,
+            col=config_btn,
+            color="Black",
+            bgcolor="#FFFFFF",
+            height=55,
+            width=212
+        )
+
+        sidebar = Container(
+            bgcolor="#FFFFFF",
+            padding=20,
+            width=250,
+            shadow=BoxShadow(blur_radius=30, color="Grey"),
+            content=Column(
                 expand=True,
-                padding=20,
-                content=Column(
-                    controls=[
-                        Text(
-                            "Pacientes Cadastrados",
-                            size=28,
-                            weight=FontWeight.BOLD
-                        ),
-                        Row(
+                controls=[
+                    Row([
+                        Icon(Icons.LOCAL_HOSPITAL, color="Black"),
+                        Text("Medical Clinic",
+                             color="Black",
+                             size=20,
+                             weight=FontWeight.BOLD)
+                    ]),
+                    Container(height=20),
+                    btn1,
+                    btn2,
+                    btn3
+                ]
+            )
+        )
+
+        self.controls = [
+            Row(
+                expand=True,
+                spacing=0,
+                controls=[
+                    sidebar,
+                    Container(
+                        expand=True,
+                        padding=20,
+                        content=Column(
                             controls=[
-                                self.input_nome,
-                                self.input_telefone,
-                                self.input_data_nascimento,
-                                self.btn_cadastrar
+                                Text("Pacientes Cadastrados", size=28, weight=FontWeight.BOLD),
+                                Row(
+                                    controls=[
+                                        self.input_nome,
+                                        self.input_telefone,
+                                        self.input_data_nascimento,
+                                        self.btn_cadastrar
+                                    ]
+                                ),
+                                Divider(),
+                                Container(
+                                    expand=True,
+                                    bgcolor="#FFFFFF",
+                                    border_radius=15,
+                                    padding=20,
+                                    border=Border.all(1, "#E5E7EB"),
+                                    content=Column(
+                                        scroll=ScrollMode.AUTO,
+                                        controls=[
+                                            self.criar_card_paciente(paciente)
+                                            for paciente in self.lista_pacientes
+                                        ]
+                                    )
+                                )
                             ]
-                        ),
-                        Divider(),
-                        Container(
-                            expand=True,
-                            bgcolor="#FFFFFF",
-                            border_radius=15,
-                            padding=20,
-                            border=Border.all(1, "#E5E7EB"),
-                            content=Column(
-                                scroll=ScrollMode.AUTO,
-                                controls=[
-                                    self.criar_card_paciente(paciente)
-                                    for paciente in self.lista_pacientes
-                                ]
-                            )
                         )
-                    ]
-                )
+                    )
+                ]
             )
         ]
 
@@ -125,7 +185,7 @@ class PacienteView(View):
         self.lista_pacientes=(self.paciente_dao.ler_paciente())
         self.renderizar_pacientes()
 
-    def cadastrar_paciente(self, e):
+    def cadastrar_paciente(self):
         novo_paciente={
             "id": Gerador_ID("paciente.json","id").id_gerado,
             "nome":self.input_nome.value,
@@ -141,6 +201,5 @@ class PacienteView(View):
 
     def renderizar_pacientes(self):
         lista_container=[self.criar_card_paciente(paciente)for paciente in self.lista_pacientes]
-        self.controls[0].content.controls[3].content.controls = lista_container
+        self.controls[0].controls[1].content.controls[3].content.controls = lista_container
         self.update()
-

@@ -16,10 +16,14 @@ class AgendamentoController:
         self.page = page
         self.tela = tela
 
+        # REFERÊNCIA DO CONTROLLER NA VIEW
+        self.tela.controller = self
+
         # =========================
         # EVENTOS
         # =========================
         self.tela.btn_add_agendamento.on_click=self.handle_add_agendamento
+
         self.listar_agendamentos()
 
     # ==================================================
@@ -27,29 +31,46 @@ class AgendamentoController:
     # ==================================================
     def listar_agendamentos(self):
         self.tela.tabela_agendamentos.rows.clear()
-
         for agendamento in self.tela.filtrar_agendamentos():
             linha = DataRow(
                 cells=[
                     DataCell(
-                        Text(agendamento["horario"])
-                    ),
-                    DataCell(
-                        Text(agendamento["paciente"])
-                    ),
-                    DataCell(
                         Text(
-                            agendamento.get(
-                                "procedimento",
-                                "N/A"
+                            str(
+                                agendamento.get(
+                                    "horario",
+                                    "N/A"
+                                )
                             )
                         )
                     ),
                     DataCell(
                         Text(
-                            agendamento.get(
-                                "status",
-                                "N/A"
+                            str(
+                                agendamento.get(
+                                    "paciente",
+                                    "N/A"
+                                )
+                            )
+                        )
+                    ),
+                    DataCell(
+                        Text(
+                            str(
+                                agendamento.get(
+                                    "procedimento",
+                                    "N/A"
+                                )
+                            )
+                        )
+                    ),
+                    DataCell(
+                        Text(
+                            str(
+                                agendamento.get(
+                                    "status",
+                                    "N/A"
+                                )
                             )
                         )
                     ),
@@ -57,9 +78,9 @@ class AgendamentoController:
                         IconButton(
                             icon=Icons.DELETE,
                             icon_color="red",
-                            data=agendamento["id"],
+                            data=agendamento.get("id"),
                             on_click=lambda e,
-                            id_agendamento=agendamento["id"]:
+                            id_agendamento=agendamento.get("id"):
                             self.handle_delete_agendamento(
                                 id_agendamento
                             )
@@ -77,45 +98,55 @@ class AgendamentoController:
         try:
             return self.dao.buscar_por_ID(id)
         except Exception as e:
-            return e
+            print(e)
+            return None
 
     # ==================================================
     # ADICIONAR AGENDAMENTO
     # ==================================================
     def handle_add_agendamento(self):
-        paciente_nome = self.tela.input_paciente.value
-        paciente=[p for p in self.paciente_dao.ler_paciente() if p["nome"] == paciente_nome][0]
-
-        agendamento = Agendamento(
-            Gerador_ID("agendamento.json","id").id_gerado,
-            paciente["id"],
-            f"{self.tela.dia_selecionado}/"
-            f"{self.tela.mes_atual}/"
-            f"{self.tela.ano_atual}",
-            self.tela.input_horario.value,
-            self.tela.input_procedimento.value,
-            "Pendente"
-        )
 
         try:
-            novo_agendamento = agendamento.to_dict()
-            novo_agendamento["paciente"]=(paciente["nome"])
-            novo_agendamento["dia"]= self.tela.dia_selecionado
+            paciente_nome=self.tela.input_paciente.value
+            pacientes = [p for p in self.paciente_dao.ler_paciente() if p["nome"] == paciente_nome]
+            if not pacientes:
+                print("Paciente não encontrado")
+                return
+            paciente = pacientes[0]
 
+            agendamento=Agendamento(
+                Gerador_ID("agendamento.json","id").id_gerado,
+                paciente["id"],f"{self.tela.dia_selecionado}/"
+                f"{self.tela.mes_atual}/"
+                f"{self.tela.ano_atual}",
+                self.tela.input_horario.value,
+                self.tela.input_procedimento.value,"Pendente")
+
+            novo_agendamento = agendamento.to_dict()
+
+            novo_agendamento["paciente"]=(paciente["nome"])
+
+            novo_agendamento["dia"]=self.tela.dia_selecionado
 
             self.dao.add_agendamento(novo_agendamento)
+
+            # LIMPAR CAMPOS
             self.tela.input_horario.value = ""
-            self.tela.input_paciente.value = ""
+            self.tela.input_paciente.value = None
             self.tela.input_procedimento.value = ""
+
             self.tela.input_horario.update()
             self.tela.input_paciente.update()
             self.tela.input_procedimento.update()
+
             self.listar_agendamentos()
         except Exception as e:
             print(e)
 
-
-    def handle_delete_agendamento(self,id_agendamento: int):
+    # ==================================================
+    # DELETAR AGENDAMENTO
+    # ==================================================
+    def handle_delete_agendamento(self,id_agendamento:int):
         try:
             self.dao.deletar_agendamento(id_agendamento)
             self.listar_agendamentos()
