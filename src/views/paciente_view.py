@@ -4,8 +4,9 @@ from src.infrastructure.services.gerador_id import Gerador_ID
 
 class PacienteView(View):
 
-    def __init__(self):
+    def __init__(self,page):
         super().__init__()
+        self.pagina=page
         self.route="/pacientes"
         self.paciente_dao=PacienteDAO()
         self.lista_pacientes=self.paciente_dao.ler_paciente()
@@ -64,6 +65,13 @@ class PacienteView(View):
             height=55,
             width=212
         )
+
+        # =========================
+        # ROTAS
+        # =========================
+
+        btn2.on_click=(lambda e: self.pagina.go("/pacientes"))
+        btn3.on_click=(lambda e: self.pagina.go("/agendamentos"))
 
         sidebar = Container(
             bgcolor="#FFFFFF",
