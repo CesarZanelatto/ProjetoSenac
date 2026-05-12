@@ -165,7 +165,7 @@ class AgendamentoView(View):
         return [
             DataRow(
                 cells=[
-                    DataCell(Text(agendamento["horário"])),
+                    DataCell(Text(agendamento["horario"])),
                     DataCell(Text(agendamento["paciente"])),
                     DataCell(
                         Text(
