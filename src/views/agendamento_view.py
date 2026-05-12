@@ -129,7 +129,7 @@ class AgendamentoView(View):
             icon=Icons.ADD,
             bgcolor="#569AA5",
             color="white",
-            on_click=self.add_agendamento
+            on_click=None
         )
         self.texto_consultas_dia = Text(
             f"Consultas do Dia {self.dia_selecionado}",
@@ -195,26 +195,6 @@ class AgendamentoView(View):
             )
             for agendamento in self.filtrar_agendamentos()
         ]
-    # ==================================================
-    # ADD AGENDAMENTO
-    # ==================================================
-    def add_agendamento(self):
-        novo_agendamento = {
-            "id": Gerador_ID("agendamento.json","id").id_gerado,
-            "dia": self.dia_selecionado,
-            "horário": self.input_horario.value,
-            "paciente": self.input_paciente.value,
-            "procedimento": self.input_procedimento.value,
-            "status": "Pendente"
-        }
-
-        self.agendamento_dao.add_agendamento(novo_agendamento)
-        self.tabela_agendamentos.rows=(self.build_rows_agendamentos())
-        self.input_horario.value = ""
-        self.input_paciente.value = ""
-        self.input_procedimento.value = ""
-        self.update()
-        self.page.update()
     # ==================================================
     # CALENDÁRIO
     # ==================================================
@@ -398,12 +378,6 @@ class AgendamentoView(View):
 
         self.dias_mes=calendar.monthcalendar(self.ano_atual,self.mes_atual)
         self.calendario_container.content=(self.build_calendario_container())
-        self.update()
-
-    def deletar_agendamento(self, e):
-        agendamento = e.control.data
-        self.agendamento_dao.deletar_agendamento(agendamento["id"])
-        self.tabela_agendamentos.rows=(self.build_rows_agendamentos())
         self.update()
     # ==================================================
     # BUILD
