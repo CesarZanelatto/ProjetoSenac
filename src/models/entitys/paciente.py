@@ -33,10 +33,10 @@ class Paciente:
 
     def to_dict(self):
         return {
-            "id": self.id,
-            "nome": self.nome,
-            "telefone": self.telefone,
-            "data_nascimento": self.data_nascimento
+            "id":self.__id,
+            "nome":self.__nome,
+            "telefone":self.__telefone,
+            "data_nascimento":self.__data_nascimento
         }
 
     @staticmethod
