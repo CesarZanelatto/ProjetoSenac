@@ -6,8 +6,7 @@ from flet import (
     Button, Icons, DataTable, DataColumn,
     Column, FontWeight, Divider, IconButton, TextAlign,
     BoxShadow, ResponsiveRow, ScrollMode, Border,
-    TextField, ElevatedButton, Dropdown,
-    ResponsiveRowBreakpoint, Icon, CrossAxisAlignment
+    TextField, ElevatedButton, Dropdown, Icon, CrossAxisAlignment
 )
 
 from flet.controls.material import dropdown
@@ -17,8 +16,9 @@ from src.models.DAO.paciente_dao import PacienteDAO
 
 class AgendamentoView(View):
 
-    def __init__(self):
+    def __init__(self,page):
         super().__init__()
+        self.pagina=page
         self.route = "/agendamentos"
         self.controller = None
         self.agendamento_dao = AgendamentoDAO()
@@ -35,41 +35,40 @@ class AgendamentoView(View):
         # =========================
         # CONFIG BOTÕES SIDEBAR
         # =========================
-        self.configBtn = {
-            ResponsiveRowBreakpoint.XS: 10,
-            ResponsiveRowBreakpoint.SM: 6,
-            ResponsiveRowBreakpoint.LG: 3
-        }
+        config_btn=12
         # =========================
         # SIDEBAR
         # =========================
-        self.btn_dashboard = Button(
+        btn_dashboard = Button(
             "Dashboard",
             icon=Icons.DASHBOARD,
-            col=self.configBtn,
+            col=config_btn,
             color="Black",
             bgcolor="#FFFFFF",
             height=55,
             width=212,
         )
-        self.btn_pacientes = Button(
+        btn_pacientes = Button(
             "Pacientes",
             icon=Icons.PEOPLE,
-            col=self.configBtn,
+            col=config_btn,
             color="Black",
             bgcolor="#FFFFFF",
             height=55,
             width=212,
         )
-        self.btn_agendamentos = Button(
+        btn_agendamentos = Button(
             "Agendamentos",
             icon=Icons.CALENDAR_TODAY_OUTLINED,
-            col=self.configBtn,
+            col=config_btn,
             color="Black",
             bgcolor="#D1EAEA",
             height=55,
             width=212,
         )
+        btn_pacientes.on_click=(lambda e: self.pagina.go("/pacientes"))
+        btn_agendamentos.on_click=(lambda e: self.pagina.go("/agendamentos"))
+
         self.sidebar = Container(
             bgcolor="#FFFFFF",
             padding=20,
@@ -96,9 +95,9 @@ class AgendamentoView(View):
                         ]
                     ),
                     Container(height=20),
-                    self.btn_dashboard,
-                    self.btn_pacientes,
-                    self.btn_agendamentos
+                    btn_dashboard,
+                    btn_pacientes,
+                    btn_agendamentos
                 ]
             )
         )
