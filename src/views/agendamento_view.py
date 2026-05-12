@@ -3,7 +3,7 @@ from datetime import datetime
 
 from flet import (
     View, Container, Text, Alignment, Row, MainAxisAlignment,
-    Button, Icons, DataTable, DataColumn, DataRow, DataCell,
+    Button, Icons, DataTable, DataColumn,
     Column, FontWeight, Divider, IconButton, TextAlign,
     BoxShadow, ResponsiveRow, ScrollMode, Border,
     TextField, ElevatedButton, Dropdown,
@@ -11,8 +11,6 @@ from flet import (
 )
 
 from flet.controls.material import dropdown
-
-from src.infrastructure.services.gerador_id import Gerador_ID
 from src.models.DAO.agendamento_dao import AgendamentoDAO
 from src.models.DAO.paciente_dao import PacienteDAO
 
@@ -22,7 +20,7 @@ class AgendamentoView(View):
     def __init__(self):
         super().__init__()
         self.route = "/agendamentos"
-
+        self.controller = None
         self.agendamento_dao = AgendamentoDAO()
 
         self.dia_selecionado = 5
@@ -156,45 +154,8 @@ class AgendamentoView(View):
                 DataColumn(label=Text("Status")),
                 DataColumn(label=Text("Ações"))
             ],
-            rows=self.build_rows_agendamentos()
+            rows=[]
         )
-    # ==================================================
-    # BUILD ROWS
-    # ==================================================
-    def build_rows_agendamentos(self):
-        return [
-            DataRow(
-                cells=[
-                    DataCell(Text(agendamento["horario"])),
-                    DataCell(Text(agendamento["paciente"])),
-                    DataCell(
-                        Text(
-                            agendamento.get(
-                                "procedimento",
-                                "N/A"
-                            )
-                        )
-                    ),
-                    DataCell(
-                        Text(
-                            agendamento.get(
-                                "status",
-                                "N/A"
-                            )
-                        )
-                    ),
-                    DataCell(
-                        IconButton(
-                            icon=Icons.DELETE,
-                            icon_color="red",
-                            data=agendamento,
-                            on_click=self.deletar_agendamento
-                        )
-                    )
-                ]
-            )
-            for agendamento in self.filtrar_agendamentos()
-        ]
     # ==================================================
     # CALENDÁRIO
     # ==================================================
@@ -354,8 +315,8 @@ class AgendamentoView(View):
     def selecionar_dia(self, e):
         self.dia_selecionado = e.control.data
         self.texto_consultas_dia.value=f"Consultas do Dia {self.dia_selecionado}"
-        self.tabela_agendamentos.rows=(self.build_rows_agendamentos())
         self.calendario_container.content=(self.build_calendario_container())
+        self.controller.listar_agendamentos()
         self.update()
 
     def proximo_mes(self):
