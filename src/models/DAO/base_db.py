@@ -1,10 +1,15 @@
 import json
 from json import JSONDecodeError
+from  src.infrastructure.services.path_db import PathDB
+
 
 class BaseDB:
 
     def __init__(self,file_db:str):
-        self.__path=fr"C:\Users\cesar\PycharmProjects\ProjetoSenac\src\infrastructure\database\{file_db}"
+        
+        
+        self.__path=fr"{PathDB().path}\{file_db}"
+        print("testando",self.__path)
         self.__file_db=file_db
 
     def read_list(self)-> list:
@@ -33,3 +38,8 @@ class BaseDB:
                 print("Salvo com sucesso no banco de dados!")
         except:
             raise ValueError("Erro ao salvar a lista do paciente deletado:",self.__file_db)
+        
+
+
+if __name__=="__main__":
+    testes=BaseDB("paciente.json")

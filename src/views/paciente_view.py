@@ -143,3 +143,4 @@ class PacienteView(View):
         lista_container=[self.criar_card_paciente(paciente)for paciente in self.lista_pacientes]
         self.controls[0].content.controls[3].content.controls = lista_container
         self.update()
+
