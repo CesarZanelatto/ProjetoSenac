@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="44c27dd4-b2e2-414e-bf36-0ed969d29007" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/controllers/dashboard_controller.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/infrastructure/database/dashboard.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/constructors/dashboard_constructor.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/DAO/dashboard_dao.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/constructors/agendamento_constructor.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/constructors/agendamento_constructor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/handle_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/handle_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/dashboard_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard_view.py" afterDir="false" />
-    </list>
+    <list default="true" id="44c27dd4-b2e2-414e-bf36-0ed969d29007" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
