@@ -114,13 +114,16 @@ class AgendamentoController:
                 return
             paciente = pacientes[0]
 
-            agendamento=Agendamento(
-                Gerador_ID("agendamento.json","id").id_gerado,
-                paciente["id"],f"{self.tela.dia_selecionado}/"
+            agendamento = Agendamento(
+                Gerador_ID("agendamento.json", "id").id_gerado,
+                paciente["id"],
+                f"{self.tela.dia_selecionado}/"
                 f"{self.tela.mes_atual}/"
                 f"{self.tela.ano_atual}",
                 self.tela.input_horario.value,
-                self.tela.input_procedimento.value,"Pendente")
+                self.tela.input_procedimento.value,
+                self.tela.input_status.value
+            )
 
             novo_agendamento = agendamento.to_dict()
 
@@ -134,6 +137,7 @@ class AgendamentoController:
             self.tela.input_horario.value = ""
             self.tela.input_paciente.value = None
             self.tela.input_procedimento.value = ""
+            self.tela.input_status.value = "Pendente"
 
             self.tela.input_horario.update()
             self.tela.input_paciente.update()

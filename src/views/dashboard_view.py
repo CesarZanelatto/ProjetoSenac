@@ -247,7 +247,7 @@ class DashboardView(View):
 
     def criar_card_fila_espera(self, agendamento):
 
-        nome = agendamento.get("nome", "Paciente")
+        nome = agendamento.get("paciente", "Paciente")
 
         return Container(
             bgcolor="#E6F4F5",

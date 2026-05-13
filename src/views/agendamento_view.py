@@ -122,6 +122,18 @@ class AgendamentoView(View):
             label="Procedimento",
             expand=True
         )
+
+        self.input_status = Dropdown(
+            label="Status",
+            width=180,
+            value="Pendente",
+            options=[
+                dropdown.Option("Pendente"),
+                dropdown.Option("Fila de Espera"),
+                dropdown.Option("Confirmado"),
+                dropdown.Option("Finalizado")
+            ]
+        )
         self.btn_add_agendamento = ElevatedButton(
             "Agendar",
             icon=Icons.ADD,
@@ -392,6 +404,7 @@ class AgendamentoView(View):
                                     self.input_horario,
                                     self.input_paciente,
                                     self.input_procedimento,
+                                    self.input_status,
                                     self.btn_add_agendamento
                                 ]
                             ),
