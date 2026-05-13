@@ -3,6 +3,6 @@ from src.controllers.agendamento_controller import AgendamentoController
 
 
 def agendamento_constructor(page):
-    view_agendamento=AgendamentoView(page)
+    view_agendamento: AgendamentoView=AgendamentoView(page)
     AgendamentoController(page,view_agendamento)
     return view_agendamento
