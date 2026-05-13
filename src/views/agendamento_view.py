@@ -68,6 +68,7 @@ class AgendamentoView(View):
         )
         btn_pacientes.on_click=(lambda e: self.pagina.go("/pacientes"))
         btn_agendamentos.on_click=(lambda e: self.pagina.go("/agendamentos"))
+        btn_dashboard.on_click=(lambda e: self.pagina.go("/dashboard"))
 
         self.sidebar = Container(
             bgcolor="#FFFFFF",
@@ -187,44 +188,52 @@ class AgendamentoView(View):
                             )
                         ]
                     ),
-                    Row(
+                    ResponsiveRow(
                         controls=[
                             Container(
-                                content=Text("SEG", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
+                                content=Text("SEG", size=12),
+                                width=35,
+                                alignment=Alignment.CENTER,
+                                col=1
                             ),
                             Container(
-                                content=Text("TER", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
+                                content=Text("TER", size=12),
+                                width=35,
+                                alignment=Alignment.CENTER,
+                                col=1
                             ),
                             Container(
-                                content=Text("QUA", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
+                                content=Text("QUA", size=12),
+                                width=35,
+                                alignment=Alignment.CENTER,
+                                col=1
                             ),
                             Container(
-                                content=Text("QUI", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
+                                content=Text("QUI", size=12),
+                                width=35,
+                                alignment=Alignment.CENTER,
+                                col=1
                             ),
                             Container(
-                                content=Text("SEX", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
+                                content=Text("SEX", size=12),
+                                width=35,
+                                alignment=Alignment.CENTER,
+                                col=1
+
                             ),
                             Container(
-                                content=Text("SAB", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
+                                content=Text("SAB", size=12),
+                                width=35,
+                                alignment=Alignment.CENTER,
+                                col=1
                             ),
                             Container(
-                                content=Text("DOM", size=10),
-                                width=30,
-                                alignment=Alignment.CENTER
+                                content=Text("DOM", size=12),
+                                width=35,
+                                alignment=Alignment.CENTER,
+                                col=1
                             )
-                        ]
+                        ], alignment=MainAxisAlignment.SPACE_AROUND
                     ),
                     *self.build_calendario()
                 ]
@@ -324,7 +333,6 @@ class AgendamentoView(View):
         else:
             self.mes_atual = 1
             self.ano_atual += 1
-
         self.dias_mes=calendar.monthcalendar(self.ano_atual,self.mes_atual)
         self.calendario_container.content=(self.build_calendario_container())
         self.update()
@@ -354,7 +362,6 @@ class AgendamentoView(View):
                 )
             ]
         )
-
         area_principal = ResponsiveRow(
             controls=[
 

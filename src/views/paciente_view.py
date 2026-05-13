@@ -36,7 +36,7 @@ class PacienteView(View):
 
         config_btn = 12
 
-        btn1 = Button(
+        btn_dashboard = Button(
             "Dashboard",
             icon=Icons.DASHBOARD,
             col=config_btn,
@@ -46,7 +46,7 @@ class PacienteView(View):
             width=212
         )
 
-        btn2 = Button(
+        btn_pacientes = Button(
             "Pacientes",
             icon=Icons.PEOPLE,
             col=config_btn,
@@ -56,7 +56,7 @@ class PacienteView(View):
             width=212
         )
 
-        btn3 = Button(
+        btn_agendamentos = Button(
             "Agendamentos",
             icon=Icons.CALENDAR_TODAY_OUTLINED,
             col=config_btn,
@@ -70,8 +70,9 @@ class PacienteView(View):
         # ROTAS
         # =========================
 
-        btn2.on_click=(lambda e: self.pagina.go("/pacientes"))
-        btn3.on_click=(lambda e: self.pagina.go("/agendamentos"))
+        btn_pacientes.on_click=(lambda e: self.pagina.go("/pacientes"))
+        btn_agendamentos.on_click=(lambda e: self.pagina.go("/agendamentos"))
+        btn_dashboard.on_click=(lambda e: self.pagina.go("/dashboard"))
 
         sidebar = Container(
             bgcolor="#FFFFFF",
@@ -89,9 +90,9 @@ class PacienteView(View):
                              weight=FontWeight.BOLD)
                     ]),
                     Container(height=20),
-                    btn1,
-                    btn2,
-                    btn3
+                    btn_dashboard,
+                    btn_pacientes,
+                    btn_agendamentos
                 ]
             )
         )
