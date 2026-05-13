@@ -126,7 +126,7 @@ class DashboardView(View):
                 self.criar_card(
                     "Total de\nPacientes:",
                     self.txt_total_pacientes,
-                    "#D1EAEA"
+                    "#D1EAEA",
                 ),
 
                 self.criar_card(
@@ -228,8 +228,10 @@ class DashboardView(View):
                 [
                     Text(
                         texto,
-                        color="Black",
-                        size=12
+                        color = "Black",
+                        size = 17,
+                        weight=FontWeight.BOLD
+
                     ),
 
                     valor
