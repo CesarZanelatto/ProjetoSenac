@@ -1,4 +1,10 @@
-from flet import *
+from flet import (
+    View, Container, Text, Row, MainAxisAlignment,
+    Button, Icons,
+    Column, FontWeight, Divider, IconButton,
+    BoxShadow, ScrollMode, Border,
+    TextField, Icon, Margin
+)
 from src.models.DAO.paciente_dao import PacienteDAO
 from src.infrastructure.services.gerador_id import Gerador_ID
 
