@@ -89,7 +89,7 @@ ProjetoSenac/
 ## 1️⃣ Clone o repositório
 
 ```bash
-https://github.com/seuusuario/SistemaClinica.git
+https://github.com/CesarZanelatto/SistemaClinica.git
 ```
 
 ---
