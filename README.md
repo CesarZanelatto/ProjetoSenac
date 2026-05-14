@@ -89,7 +89,7 @@ ProjetoSenac/
 ## 1️⃣ Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/ProjetoSenac.git
+https://github.com/CesarZanelatto/SistemaClinica.git
 ```
 
 ---
@@ -97,7 +97,7 @@ git clone https://github.com/seu-usuario/ProjetoSenac.git
 ## 2️⃣ Acesse a pasta do projeto
 
 ```bash
-cd ProjetoSenac
+cd SistemaClinica
 ```
 
 ---
