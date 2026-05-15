@@ -135,6 +135,11 @@ python app.py
 ```
 
 ---
+## 6 Como Buildar o sistema:
+Para gerar o executável da aplicação utilizando Flet + PyInstaller:
+
+```powershell
+flet pack app.py --add-data "src/infrastructure/database;src/infrastructure/database"
 
 # 📸 Imagens do Sistema
 
@@ -169,3 +174,4 @@ Projeto desenvolvido para atividades acadêmicas do **Senac**.
 # 📄 Licença
 
 Este projeto é destinado para fins educacionais.
+
